@@ -14,7 +14,7 @@ class QualityLinks {
     return getQualitiesAsync();
   }
 
-  Future<SplayTreeMap> getQualitiesAsync() async {
+  /*Future<SplayTreeMap> getQualitiesAsyncOld() async {
     try {
       var response = await http
           .get('https://player.vimeo.com/video/' + videoId + '/config');
@@ -23,6 +23,31 @@ class QualityLinks {
       SplayTreeMap videoList = SplayTreeMap.fromIterable(jsonData,
           key: (item) => "${item['quality']} ${item['fps']}",
           value: (item) => item['url']);
+      return videoList;
+    } catch (error) {
+      print('=====> REQUEST ERROR: $error');
+      return null;
+    }
+  }*/
+
+   Future<SplayTreeMap> getQualitiesAsync() async {
+    try {
+      final response =
+          await http.get("https://api.vimeo.com/me/videos/$videoId", headers: {
+        "Authorization": "Bearer 711542deb175eeab25582fa917400463",
+      });
+
+      var jsonData = jsonDecode(response.body)['download'];
+      SplayTreeMap videoList = SplayTreeMap.fromIterable(jsonData,
+          key: (item) => "${item["public_name"]}  ${item["size_short"]} ",
+          value: (item) => item['link']);
+
+      print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+
+      videoList.forEach((key, value) {
+        print("key: " + key.toString() + "   value: " + value.toString());
+      });
+      print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
       return videoList;
     } catch (error) {
       print('=====> REQUEST ERROR: $error');
