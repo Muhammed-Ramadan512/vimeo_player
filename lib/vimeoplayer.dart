@@ -119,8 +119,8 @@ class _VimeoPlayerState extends State<VimeoPlayer> {
     const pattern = "[0-9]+(?=p)";
 
     final exp = RegExp(pattern);
-    final q1 = int.tryParse(exp.firstMatch(k1)?.group(0)) ?? 0;
-    final q2 = int.tryParse(exp.firstMatch(k2)?.group(0)) ?? 0;
+    final q1 = int.tryParse(exp.firstMatch(k1)?.group(0) ?? 0) ?? 0;
+    final q2 = int.tryParse(exp.firstMatch(k2)?.group(0) ?? 0) ?? 0;
 
     return q1.compareTo(q2);
   }
