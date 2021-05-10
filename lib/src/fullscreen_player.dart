@@ -341,7 +341,7 @@ class _FullscreenPlayerState extends State<FullscreenPlayer> {
         builder: (BuildContext bc) {
           final children = <Widget>[];
           widget.qualityValues.forEach((quality) => (children.add(new ListTile(
-              title: new Text(" ${quality.key.toString()} fps"),
+              title: new Text(" ${quality.key.toString()}"),
               trailing: currentResolutionQualityKey == quality.key
                   ? Icon(Icons.check)
                   : null,
