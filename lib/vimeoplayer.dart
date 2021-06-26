@@ -24,6 +24,7 @@ class VimeoPlayer extends StatefulWidget {
   final bool autoPlay;
   final bool looping;
   final int position;
+  final String token;
 
   ///[commnecingOverlay] decides whether to show overlay when video player loads video, NOTE - It will function only when autoplay is true
   final bool commencingOverlay;
@@ -44,14 +45,15 @@ class VimeoPlayer extends StatefulWidget {
     this.fullScreenBackgroundColor,
     this.loadingIndicatorColor,
     this.controlsColor,
+    @required this.token,
     int overlayTimeOut = 0,
     Key key,
   })  : this.overlayTimeOut = max(overlayTimeOut, 5),
         super(key: key);
 
   @override
-  _VimeoPlayerState createState() => _VimeoPlayerState(
-      id, autoPlay, looping, position, autoPlay ? commencingOverlay : true);
+  _VimeoPlayerState createState() => _VimeoPlayerState(id, autoPlay, looping,
+      position, autoPlay ? commencingOverlay : true, token);
 }
 
 class _VimeoPlayerState extends State<VimeoPlayer> {
@@ -61,10 +63,16 @@ class _VimeoPlayerState extends State<VimeoPlayer> {
   bool _overlay = true;
   bool fullScreen = false;
   int position;
+  String token;
 
   _VimeoPlayerState(
-      this._id, this.autoPlay, this.looping, this.position, this._overlay)
-      : initialOverlay = _overlay;
+    this._id,
+    this.autoPlay,
+    this.looping,
+    this.position,
+    this._overlay,
+    this.token,
+  ) : initialOverlay = _overlay;
 
   //Custom controller
   VideoPlayerController _controller;
@@ -119,8 +127,8 @@ class _VimeoPlayerState extends State<VimeoPlayer> {
     const pattern = "[0-9]+(?=p)";
 
     final exp = RegExp(pattern);
-    final q1 = int.tryParse(exp.firstMatch(k1)?.group(0) ?? "0");
-    final q2 = int.tryParse(exp.firstMatch(k2)?.group(0) ?? "0");
+    final q1 = int.tryParse(exp.firstMatch(k1)?.group(0) ?? "0") ?? 0;
+    final q2 = int.tryParse(exp.firstMatch(k2)?.group(0) ?? "0") ?? 0;
 
     return q1.compareTo(q2);
   }
@@ -128,7 +136,7 @@ class _VimeoPlayerState extends State<VimeoPlayer> {
   @override
   void initState() {
     //Create class
-    _quality = QualityLinks(_id);
+    _quality = QualityLinks(_id, token);
 
     // Initialization of video controllers when receiving data from Vimeo
     _quality.getQualitiesSync().then((value) {
