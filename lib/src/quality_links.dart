@@ -34,8 +34,8 @@ class QualityLinks {
   Future<SplayTreeMap> getQualitiesAsync() async {
     print("token: Bearer $token");
     try {
-      final response =
-          await http.get("https://api.vimeo.com/me/videos/$videoId", headers: {
+      final response = await http
+          .get(Uri.parse("https://api.vimeo.com/me/videos/$videoId"), headers: {
         "Authorization": "Bearer $token",
       });
 
