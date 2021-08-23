@@ -9,9 +9,9 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  video_player: '>=0.10.0 <2.0.0'
-  http: ^0.13.3
-  wakelock: 
+  video_player: 2.1.14
+  http: 0.13.3
+  wakelock: 0.5.3+3
 
 dev_dependencies:
   flutter_test:
