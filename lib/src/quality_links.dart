@@ -1,7 +1,8 @@
-import 'package:http/http.dart' as http;
-import 'dart:convert';
 import 'dart:async';
 import "dart:collection";
+import 'dart:convert';
+
+import 'package:http/http.dart' as http;
 
 //throw UnimplementedError();
 
@@ -38,21 +39,15 @@ class QualityLinks {
           .get(Uri.parse("https://api.vimeo.com/me/videos/$videoId"), headers: {
         "Authorization": "Bearer $token",
       });
-
       var jsonData = jsonDecode(response.body)['download'];
       print(jsonData);
       SplayTreeMap videoList = SplayTreeMap.fromIterable(jsonData,
           key: (item) => "${item["public_name"]}  ${item["size_short"]} ",
           value: (item) => item['link']);
 
-      print(
-          "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
-
       videoList.forEach((key, value) {
         print("key: " + key.toString() + "   value: " + value.toString());
       });
-      print(
-          "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
       return videoList;
     } catch (error) {
       print('=====> REQUEST ERROR: $error');
