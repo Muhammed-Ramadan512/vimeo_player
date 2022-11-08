@@ -10,7 +10,7 @@ dependencies:
   flutter:
     sdk: flutter
   video_player:
-  http: 
+  http:
   wakelock:
 
 dev_dependencies:
